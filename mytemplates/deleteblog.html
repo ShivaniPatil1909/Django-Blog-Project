@@ -1,0 +1,47 @@
+{% extends "index.html" %}
+
+{% block title %}
+    Delete Blog Post...
+{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    {% if user.id == batman.author.id  %}
+        <h2>
+            Delete Blog
+        </h2>
+        <hr>
+
+        <div class="form-group">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <br>
+                <div class="alert alert-danger">
+                    Are You Sure Want To Delete <b>{{batman.title}}</b> Blog?
+                </div><br>
+                <input type="submit" class="btn btn-danger" value="Delete Blog" id="">
+                &nbsp;&nbsp;&nbsp;
+                <a href="/" class="btn btn-primary" >Cancel</a>
+            </form>
+        </div>
+    {% else %}
+
+        <center><br><br><br><br><
+            <br>
+                Oops..!!
+                <br><br> 
+                Only author have the permission to delete this blog..!!
+                <br><br>
+        </center>
+                 
+    {% endif %}
+    
+{% else %}
+
+<center> Oops..!!<br>Please login to access this page.!!</center>
+
+{% endif %}
+
+{% endblock content %}

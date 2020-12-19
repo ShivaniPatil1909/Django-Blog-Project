@@ -1,0 +1,145 @@
+{% extends "home.html" %}
+
+{% load static %}
+
+{% block title %}
+    {{ batman.title_tag }}
+{% endblock %}
+
+{% block content %}
+<br>
+<h2>
+    {{batman.title}}
+</h2>
+By:
+    <i>
+        {{batman.author.first_name}} 
+        {{batman.author.last_name}}
+    </i>
+    - {{batman.post_date}}
+    
+    {% if user.is_authenticated %}
+        {% if user.id == batman.author.id  %}
+            <small>
+                <a href="{% url 'blog_edit' batman.pk %}">(Edit)</a>
+
+                <a href="{% url 'blog_delete' batman.pk %}">(Delete)</a></small>
+            </small>
+        {% endif %}
+    {% endif %}
+
+<hr> 
+
+{% if batman.header_image %}
+    <img src="{{ batman.header_image.url }}" alt="">
+{% endif %}   
+<br>
+<br>
+ {{batman.body |safe }}
+<br>
+
+<hr>
+<br>
+<div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-2">
+    {% if batman.author.profile.profile_pic %} 
+
+        <img src="{{ batman.author.profile.profile_pic.url }}" 
+        class="card-img" alt="...">
+    
+    {% else %}
+
+        <img src="{% static 'theblog/images/default_profile_pic.jpg' %}" 
+        class="card-img" alt="...">
+
+    {% endif %}
+
+      </div>
+      <div class="col-md-10">
+        <div class="card-body">
+          <h5 class="card-title">
+              {{batman.author.first_name}} 
+              {{batman.author.last_name}}
+            </h5>
+            <p class="small text-muted">
+                {% if batman.author.profile.id %}
+                <a href="{% url 'show_profile_page' batman.author.profile.id %}">
+                    Profile Page
+                </a>
+                {% endif %}
+  
+                {% if batman.author.profile.website_url %}
+                    | <a href="{{ batman.author.profile.website_url }}"> 
+                        Website
+                    </a> 
+                {% endif %}
+                
+                {% if batman.author.profile.facebook_url %}
+                    | <a href="{{ batman.author.profile.facebook_url }}"> 
+                        Facebook 
+                    </a> 
+                {% endif %}
+
+                {% if batman.author.profile.instagram_url %}
+                    | <a href="{{ batman.author.profile.instagram_url }}"> 
+                        Instagram 
+                    </a>  
+                {% endif %}
+
+                {% if batman.author.profile.twitter_url %}
+                    | <a href="{{ batman.author.profile.twitter_url }}"> 
+                        Twitter
+                    </a>  
+                {% endif %}
+
+                {% if batman.author.profile.pinterest_url %}
+                    | <a href="{{ batman.author.profile.pinterest_url }}">
+                        Pinterest 
+                    </a>
+                {% endif %}
+            </p><hr>
+            <p class="card-text">
+              {{ batman.author.profile.bio }}
+            </p>
+        </div>
+      </div>
+    </div>
+</div>
+<br>
+<hr>
+
+<h3>Comments..</h3>
+<br>
+
+
+{% if not batman.comments.all %}
+        No comments yet... 
+        <a href="{% url 'add_comment' batman.pk %}">
+             Add One
+        </a>
+{% else %}
+<a href="{% url 'add_comment' batman.pk %}">Add comment</a>
+<br><br>
+        {% for comment in batman.comments.all %}
+        <strong>
+            {{ comment.name }}
+        </strong>
+        <br>
+        {{ comment.body }}
+        <br>
+        <b><i>  
+            {{ comment.date_added }} 
+        </i></b>  
+        <br><br>
+        {% endfor %}
+        <br>
+        <a href="{% url 'add_comment' batman.pk %}">Add comment</a>
+{% endif %}
+
+<br>
+<hr>
+<br>
+<a href="/" class="btn btn-secondary">Back</a>
+
+{% endblock content %}

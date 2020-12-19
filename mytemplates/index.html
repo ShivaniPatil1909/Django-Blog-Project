@@ -1,0 +1,38 @@
+{% extends "home.html" %}
+{% block title %}
+    {{ batman.title_tag }}
+{% endblock %}
+{% block content %}
+<br>
+<h3>
+    Posts
+</h3>
+<br>
+
+<ul>
+{% for x in object_list  %}
+    <li>    
+        <b><a href="{% url 'detailView' x.pk %}"> {{x.title}} </a> </b> 
+        - <i> 
+            {{x.author.first_name}}
+            {{x.author.last_name}} 
+        </i> 
+        - <u> {{x.post_date}}</u>
+        {% if user.is_authenticated %}
+            {% if user.id == x.author.id  %}
+                <a href="{% url 'blog_edit' x.pk %}">(Edit)</a>
+                        
+                <a href="{% url 'blog_delete' x.pk %}">(Delete)</a>
+            {% endif %}
+        {% endif %}
+        <br>
+         {{ x.snippet }} <br>
+         <!-- <a href="{% url 'detailView' x.pk %}"> (read more..) </a> <br> -->
+      <br>          
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock content %}
+
+   

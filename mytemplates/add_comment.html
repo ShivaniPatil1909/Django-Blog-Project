@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+{% block title %}
+    Cooment on Blog Post..!!
+{% endblock %}
+{% block content %}
+
+    <h2>
+        Add Comment Here..
+    </h2>
+    <hr>
+
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <input type="submit" class="btn btn-success" value="Add Comment" id="" alert="The blog created successfully">
+            &nbsp;&nbsp;&nbsp;<a href="/" class="btn btn-secondary">Back</a>
+        </form>
+    </div>
+
+{% endblock content %}
+

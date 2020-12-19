@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+{% block title %}
+    Create a New Blog Post..!!
+{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h1>
+        Add Blog Here..
+    </h1>
+    <hr>
+
+    <div class="form-group">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <br>
+            <input type="submit" class="btn btn-success" value="Add Blog" id="">
+            &nbsp;&nbsp;&nbsp;<a href="/" class="btn btn-secondary">Back</a>
+
+        </form>
+    </div>
+        
+
+    <script>
+        var name = '{{ user.id }}';
+        document.getElementById("elder").value = name;
+    </script>
+    
+{% else %}
+
+<center> Oops..!!<br>Please login to access this page.!!</center>
+
+{% endif %}
+
+{% endblock content %}
+
